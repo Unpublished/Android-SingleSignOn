@@ -1,16 +1,17 @@
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
 repositories {
     google()
+    mavenCentral()
     jcenter()
 }
 
@@ -20,7 +21,7 @@ group='com.github.nextcloud'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
