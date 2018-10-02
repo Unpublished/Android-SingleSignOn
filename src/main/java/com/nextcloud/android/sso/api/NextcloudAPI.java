@@ -268,6 +268,11 @@ public class NextcloudAPI {
                     }
                 });
 
+        if (mService == null) {
+            is.close();
+            input.close();
+            return null;
+        }
         return mService.performNextcloudRequest(input);
     }
 
