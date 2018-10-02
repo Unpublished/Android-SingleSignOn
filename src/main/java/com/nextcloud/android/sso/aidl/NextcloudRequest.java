@@ -28,17 +28,17 @@ public class NextcloudRequest implements Serializable {
 
     private static final long serialVersionUID = 215521212534240L; //assign a long value
 
-    private String method;
-    private Map<String, List<String>> header = new HashMap<>();
-    private Map<String, String> parameter = new HashMap<>();
-    private String requestBody;
-    private String url;
-    private String token;
+    String method;
+    Map<String, List<String>> header = new HashMap<>();
+    Map<String, String> parameter = new HashMap<>();
+    String requestBody;
+    String url;
+    String token;
     private String packageName;
-    private String accountName;
-    private boolean followRedirects;
+    String accountName;
+    boolean followRedirects;
 
-    private NextcloudRequest() { }
+    NextcloudRequest() { }
 
     public static class Builder {
         private NextcloudRequest ncr;

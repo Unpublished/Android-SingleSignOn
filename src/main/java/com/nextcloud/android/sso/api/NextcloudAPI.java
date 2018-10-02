@@ -72,14 +72,14 @@ public class NextcloudAPI {
         connectApiWithBackoff();
     }
 
-    private static final String TAG = NextcloudAPI.class.getCanonicalName();
+    static final String TAG = NextcloudAPI.class.getCanonicalName();
 
     private Gson gson;
-    private IInputStreamService mService = null;
-    private boolean mBound = false; // Flag indicating whether we have called bind on the service
-    private boolean mDestroyed = false; // Flag indicating if API is destroyed
+    IInputStreamService mService = null;
+    boolean mBound = false; // Flag indicating whether we have called bind on the service
+    boolean mDestroyed = false; // Flag indicating if API is destroyed
     private SingleSignOnAccount mAccount;
-    private ApiConnectedListener mCallback;
+    ApiConnectedListener mCallback;
     private Context mContext;
 
 
@@ -91,7 +91,7 @@ public class NextcloudAPI {
         return mAccount.token;
     }
 
-    private void connectApiWithBackoff() {
+    void connectApiWithBackoff() {
         new ExponentialBackoff(1000, 10000, 2, 5, Looper.getMainLooper(), new Runnable() {
             @Override
             public void run() {
@@ -100,7 +100,7 @@ public class NextcloudAPI {
         }).start();
     }
 
-    private void connect() {
+    void connect() {
         if (mDestroyed) {
             throw new IllegalStateException("API already destroyed! You cannot reuse a stopped API instance");
         }
