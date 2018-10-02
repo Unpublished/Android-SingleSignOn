@@ -34,7 +34,7 @@ public class ExponentialBackoff {
     private int mMaxRetries;
     private int mMultiplier;
     private final Runnable mRunnable;
-    private final Handler mHandler;
+    final Handler mHandler;
 
     /**
      * Implementation of Handler methods, Adapter for testing (can't spy on final methods).
@@ -102,7 +102,7 @@ public class ExponentialBackoff {
     }
 
     /** Should call when the retry action has failed and we want to retry after a longer delay. */
-    private void notifyFailed() {
+    void notifyFailed() {
         if(mRetryCounter > mMaxRetries) {
             stop();
         } else {
