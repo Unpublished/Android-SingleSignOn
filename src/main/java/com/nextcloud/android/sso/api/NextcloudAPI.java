@@ -249,8 +249,7 @@ public class NextcloudAPI {
 
     public static <T> T deserializeObject(InputStream is) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(is);
-        T result = (T) ois.readObject();
-        return result;
+        return (T) ois.readObject();
     }
 
      /**
