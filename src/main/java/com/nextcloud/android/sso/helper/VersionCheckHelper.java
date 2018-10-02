@@ -15,9 +15,9 @@ public final class VersionCheckHelper {
 
     private VersionCheckHelper() { }
 
-    public static boolean verifyMinVersion(Activity activity, int minVersion) {
+    public static boolean verifyMinVersion(Activity activity, long minVersion) {
         try {
-            int verCode = getNextcloudFilesVersionCode(activity);
+            long verCode = getNextcloudFilesVersionCode(activity);
 
             if (verCode < minVersion) {
                 UiExceptionManager.showDialogForException(activity, new NextcloudFilesAppNotSupportedException());
@@ -32,9 +32,9 @@ public final class VersionCheckHelper {
         return true;
     }
 
-    public static int getNextcloudFilesVersionCode(Activity activity) throws PackageManager.NameNotFoundException {
+    public static long getNextcloudFilesVersionCode(Activity activity) throws PackageManager.NameNotFoundException {
         PackageInfo pInfo = activity.getPackageManager().getPackageInfo("com.nextcloud.client", 0);
-        int verCode = pInfo.versionCode;
+        long verCode = pInfo.getLongVersionCode();
         Log.e("VersionCheckHelper", "Version Code: " + verCode);
         return verCode;
     }
