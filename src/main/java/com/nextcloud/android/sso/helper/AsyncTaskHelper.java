@@ -45,7 +45,7 @@ public class AsyncTaskHelper {
     public static class GenericAsyncTaskWithCallable<T> extends AsyncTask<Void, Void, T> {
 
         private Callable<T> callable;
-        private Exception exception;
+        Exception exception;
 
         GenericAsyncTaskWithCallable(Callable<T> callable) {
             this.callable = callable;

@@ -65,14 +65,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public class NextcloudAPI {
 
-    private static final String TAG = NextcloudAPI.class.getCanonicalName();
+    static final String TAG = NextcloudAPI.class.getCanonicalName();
 
     private Gson gson;
-    private IInputStreamService mService = null;
-    private final AtomicBoolean mBound = new AtomicBoolean(false); // Flag indicating whether we have called bind on the service
-    private boolean mDestroyed = false; // Flag indicating if API is destroyed
+    IInputStreamService mService = null;
+    final AtomicBoolean mBound = new AtomicBoolean(false); // Flag indicating whether we have called bind on the service
+    boolean mDestroyed = false; // Flag indicating if API is destroyed
     private SingleSignOnAccount mAccount;
-    private ApiConnectedListener mCallback;
+    ApiConnectedListener mCallback;
     private Context mContext;
 
     @Documented
@@ -111,7 +111,7 @@ public class NextcloudAPI {
         return mAccount.token;
     }
 
-    private void connectApiWithBackoff() {
+    void connectApiWithBackoff() {
         new ExponentialBackoff(1000, 10000, 2, 5, Looper.getMainLooper(), new Runnable() {
             @Override
             public void run() {
@@ -120,7 +120,7 @@ public class NextcloudAPI {
         }).start();
     }
 
-    private void connect() {
+    void connect() {
         Log.v(TAG, "Nextcloud Single sign-on connect() called [" + Thread.currentThread().getName() + "]");
         if (mDestroyed) {
             throw new IllegalStateException("API already destroyed! You cannot reuse a stopped API instance");
