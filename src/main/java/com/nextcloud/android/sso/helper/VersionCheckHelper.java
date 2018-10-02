@@ -61,6 +61,7 @@ public final class VersionCheckHelper {
 
     public static int getNextcloudFilesVersionCode(@NonNull Context context, boolean prod) throws PackageManager.NameNotFoundException {
         final PackageInfo pInfo = context.getPackageManager().getPackageInfo(prod ? Constants.PACKAGE_NAME_PROD : Constants.PACKAGE_NAME_DEV, 0);
+        //noinspection deprecation TODO SDK 28
         final int verCode = pInfo.versionCode;
         Log.d("VersionCheckHelper", "Version Code: " + verCode);
         return verCode;
