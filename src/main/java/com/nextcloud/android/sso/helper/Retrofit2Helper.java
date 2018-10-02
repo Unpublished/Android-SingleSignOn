@@ -156,7 +156,7 @@ public final class Retrofit2Helper {
 
     }
 
-    private static ResponseBody emptyResponseBody = new ResponseBody() {
+    static ResponseBody emptyResponseBody = new ResponseBody() {
         @Override
         public MediaType contentType() {
             return null;
