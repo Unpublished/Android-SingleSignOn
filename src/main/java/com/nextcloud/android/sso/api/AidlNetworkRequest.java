@@ -30,10 +30,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.nextcloud.android.sso.exceptions.SSOException.parseNextcloudCustomException;
 
 public class AidlNetworkRequest extends NetworkRequest {
-    private static final String TAG = AidlNetworkRequest.class.getCanonicalName();
+    static final String TAG = AidlNetworkRequest.class.getCanonicalName();
 
-    private IInputStreamService mService = null;
-    private final AtomicBoolean mBound = new AtomicBoolean(false); // Flag indicating whether we have called bind on the service
+    IInputStreamService mService = null;
+    final AtomicBoolean mBound = new AtomicBoolean(false); // Flag indicating whether we have called bind on the service
 
     AidlNetworkRequest(Context context, SingleSignOnAccount account, NextcloudAPI.ApiConnectedListener callback) {
         super(context, account, callback);
