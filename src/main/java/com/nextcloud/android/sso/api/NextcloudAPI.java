@@ -42,9 +42,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public class NextcloudAPI {
 
-    private static final String TAG = NextcloudAPI.class.getCanonicalName();
+    static final String TAG = NextcloudAPI.class.getCanonicalName();
 
-    private NetworkRequest networkRequest;
+    NetworkRequest networkRequest;
     private Gson gson;
 
 
