@@ -112,7 +112,7 @@ public class ExponentialBackoff {
     }
 
     /** Should call when the retry action has failed and we want to retry after a longer delay. */
-    private void notifyFailed(Exception ex) {
+    void notifyFailed(Exception ex) {
         Log.d(TAG, "[notifyFailed] Error: [" + ex.getMessage() + "]");
         if(mRetryCounter > mMaxRetries) {
             Log.d(TAG, "[notifyFailed] Retries exceeded, ending now");
