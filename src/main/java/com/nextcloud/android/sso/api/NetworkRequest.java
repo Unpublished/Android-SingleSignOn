@@ -37,12 +37,7 @@ public abstract class NetworkRequest {
     protected abstract InputStream performNetworkRequest(NextcloudRequest request, InputStream requestBodyInputStream) throws Exception;
 
     protected void connectApiWithBackoff() {
-        new ExponentialBackoff(1000, 10000, 2, 5, Looper.getMainLooper(), new Runnable() {
-            @Override
-            public void run() {
-            connect();
-            }
-        }).start();
+        new ExponentialBackoff(1000, 10000, 2, 5, Looper.getMainLooper(), this::connect).start();
     }
 
     protected void stop() {
