@@ -12,7 +12,6 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.nextcloud.android.sso.aidl.IInputStreamService;
-import com.nextcloud.android.sso.aidl.IThreadListener;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.aidl.ParcelFileDescriptorUtil;
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
@@ -183,22 +182,12 @@ public class AidlNetworkRequest extends NetworkRequest {
         InputStream is = new ByteArrayInputStream(baos.toByteArray());
 
         ParcelFileDescriptor input = ParcelFileDescriptorUtil.pipeFrom(is,
-                new IThreadListener() {
-                    @Override
-                    public void onThreadFinished(Thread thread) {
-                        Log.d(TAG, "copy data from service finished");
-                    }
-                });
+                thread -> Log.d(TAG, "copy data from service finished"));
 
         ParcelFileDescriptor requestBodyParcelFileDescriptor = null;
         if(requestBodyInputStream != null) {
             requestBodyParcelFileDescriptor = ParcelFileDescriptorUtil.pipeFrom(requestBodyInputStream,
-                    new IThreadListener() {
-                        @Override
-                        public void onThreadFinished(Thread thread) {
-                            Log.d(TAG, "copy data from service finished");
-                        }
-                    });
+                    thread -> Log.d(TAG, "copy data from service finished"));
         }
 
         ParcelFileDescriptor output;
