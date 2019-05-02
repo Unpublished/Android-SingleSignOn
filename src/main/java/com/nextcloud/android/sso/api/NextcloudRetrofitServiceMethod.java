@@ -11,7 +11,6 @@ import com.nextcloud.android.sso.helper.Retrofit2Helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,9 +31,11 @@ import java.util.regex.Pattern;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import okhttp3.NextcloudRequestBuilder;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -71,7 +72,7 @@ public class NextcloudRetrofitServiceMethod<T> {
     private final NextcloudRequest.Builder requestBuilder;
 
 
-    public NextcloudRetrofitServiceMethod(String apiEndpoint, Method method) {
+    public NextcloudRetrofitServiceMethod(HttpUrl apiEndpoint, Method method) {
         this.method = method;
         this.returnType = method.getGenericReturnType();
         Annotation[] methodAnnotations = method.getAnnotations();
@@ -92,7 +93,7 @@ public class NextcloudRetrofitServiceMethod<T> {
                 .setMethod(httpMethod)
                 .setHeader(headers.toMultimap())
                 .setFollowRedirects(followRedirects)
-                .setUrl(new File(apiEndpoint, relativeUrl).toString());
+                .setUrl(NextcloudRequestBuilder.relativeUrl(apiEndpoint, relativeUrl));
 
 
         Log.d(TAG, "NextcloudRetrofitServiceMethod() called with: apiEndpoint = [" + apiEndpoint + "], method = [" + method + "]");
