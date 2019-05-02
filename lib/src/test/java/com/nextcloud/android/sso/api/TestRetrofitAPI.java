@@ -359,7 +359,7 @@ public class TestRetrofitAPI {
 
         NextcloudRequest request = new NextcloudRequest.Builder()
                 .setMethod("GET")
-                .setUrl(mApiEndpoint + "test")
+                .setUrl("/test")
                 .setHeader(expectedHeader)
                 .build();
 
@@ -387,7 +387,7 @@ public class TestRetrofitAPI {
 
         NextcloudRequest request = new NextcloudRequest.Builder()
                 .setMethod("GET")
-                .setUrl(mApiEndpoint + "test")
+                .setUrl("/test")
                 .setFollowRedirects(true)
                 .build();
 
@@ -412,7 +412,7 @@ public class TestRetrofitAPI {
 
         final var request = new NextcloudRequest.Builder()
                 .setMethod("POST")
-                .setUrl(mApiEndpoint + "test")
+                .setUrl("/test")
                 .setParameter(parameter)
                 .build();
 
@@ -438,7 +438,7 @@ public class TestRetrofitAPI {
 
         final var request = new NextcloudRequest.Builder()
                 .setMethod("POST")
-                .setUrl(mApiEndpoint + "test")
+                .setUrl("/test")
                 .setParameter(parameters)
                 .build();
 

@@ -42,12 +42,14 @@ import java.util.regex.Pattern;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import retrofit2.Call;
+import okhttp3.NextcloudRequestBuilder;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -88,7 +90,7 @@ public class NextcloudRetrofitServiceMethod<T> {
     private boolean isFormEncoded = false;
 
 
-    public NextcloudRetrofitServiceMethod(String apiEndpoint, @NonNull Method method) {
+    public NextcloudRetrofitServiceMethod(HttpUrl apiEndpoint, @NonNull Method method) {
         this.method = method;
         this.returnType = method.getGenericReturnType();
         Annotation[] methodAnnotations = method.getAnnotations();
@@ -108,7 +110,7 @@ public class NextcloudRetrofitServiceMethod<T> {
                 .setMethod(httpMethod)
                 .setHeader(headers.toMultimap())
                 .setFollowRedirects(followRedirects)
-                .setUrl(new File(apiEndpoint, relativeUrl).toString());
+                .setUrl(NextcloudRequestBuilder.relativeUrl(apiEndpoint, relativeUrl));
 
 
         Log.d(TAG, "NextcloudRetrofitServiceMethod() called with: apiEndpoint = [" + apiEndpoint + "], method = [" + method + "]");
