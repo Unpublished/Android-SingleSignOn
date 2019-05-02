@@ -8,17 +8,19 @@ import java.lang.reflect.Proxy;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import okhttp3.HttpUrl;
+
 
 public class NextcloudRetrofitApiBuilder {
 
     private final Map<Method, NextcloudRetrofitServiceMethod<?>> serviceMethodCache = new ConcurrentHashMap<>();
 
     private final NextcloudAPI mNextcloudAPI;
-    private final String mApiEndpoint;
+    private final HttpUrl mApiEndpoint;
 
     public NextcloudRetrofitApiBuilder(NextcloudAPI nextcloudAPI, String apiEndpoint) {
         this.mNextcloudAPI = nextcloudAPI;
-        this.mApiEndpoint = apiEndpoint;
+        this.mApiEndpoint = new HttpUrl.Builder().scheme("https").host("dummy").build().resolve(apiEndpoint);
     }
 
     @SuppressWarnings("unchecked") // Single-interface proxy creation guarded by parameter safety.
