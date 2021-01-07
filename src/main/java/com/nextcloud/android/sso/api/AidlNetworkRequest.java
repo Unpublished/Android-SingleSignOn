@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import com.nextcloud.android.sso.Constants;
+import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.aidl.IInputStreamService;
 import com.nextcloud.android.sso.aidl.NextcloudRequest;
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
@@ -82,9 +82,7 @@ public class AidlNetworkRequest extends NetworkRequest {
         Log.d(TAG, "[connect] Binding to AccountManagerService for type [" + type + "]");
         super.connect(type);
 
-        final String componentName = Constants.ACCOUNT_TYPE_DEV.equals(type)
-            ? Constants.PACKAGE_NAME_DEV
-            : Constants.PACKAGE_NAME_PROD;
+        final String componentName = AccountImporter.getPackageNameForType(type);
 
         Log.d(TAG, "[connect] Component name is: [" + componentName+ "]");
 

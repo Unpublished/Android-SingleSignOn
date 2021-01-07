@@ -57,9 +57,12 @@ import io.reactivex.annotations.NonNull;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.nextcloud.android.sso.Constants.ACCOUNT_TYPE_DEV;
 import static com.nextcloud.android.sso.Constants.NEXTCLOUD_FILES_ACCOUNT;
 import static com.nextcloud.android.sso.Constants.NEXTCLOUD_SSO;
 import static com.nextcloud.android.sso.Constants.NEXTCLOUD_SSO_EXCEPTION;
+import static com.nextcloud.android.sso.Constants.PACKAGE_NAME_DEV;
+import static com.nextcloud.android.sso.Constants.PACKAGE_NAME_PROD;
 import static com.nextcloud.android.sso.Constants.SSO_SHARED_PREFERENCE;
 
 public class AccountImporter {
@@ -370,18 +373,21 @@ public class AccountImporter {
             throw new NextcloudFilesAppAccountPermissionNotGrantedException();
         }
 
-        String componentName;
-        if (account.type.equalsIgnoreCase(Constants.ACCOUNT_TYPE_DEV)) {
-            componentName = Constants.PACKAGE_NAME_DEV;
-        } else {
-            componentName = Constants.PACKAGE_NAME_PROD;
-        }
-        
+        String componentName = getPackageNameForType(account.type);
+
         Intent authIntent = new Intent();
         authIntent.setComponent(new ComponentName(componentName,
                                                   "com.owncloud.android.ui.activity.SsoGrantPermissionActivity"));
         authIntent.putExtra(NEXTCLOUD_FILES_ACCOUNT, account);
         return authIntent;
+    }
+
+    public static String getPackageNameForType(String type) {
+        if (ACCOUNT_TYPE_DEV.equalsIgnoreCase(type)) {
+            return PACKAGE_NAME_DEV;
+        } else {
+            return PACKAGE_NAME_PROD;
+        }
     }
 
 
