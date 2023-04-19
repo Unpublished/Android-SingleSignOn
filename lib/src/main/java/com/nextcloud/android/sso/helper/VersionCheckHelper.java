@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.pm.PackageInfoCompat;
 
 import com.nextcloud.android.sso.FilesAppTypeRegistry;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
@@ -28,9 +29,9 @@ public final class VersionCheckHelper {
 
     private VersionCheckHelper() { }
 
-    public static boolean verifyMinVersion(@NonNull Context context, int minVersion, @NonNull FilesAppType type) {
+    public static boolean verifyMinVersion(@NonNull Context context, long minVersion, @NonNull FilesAppType type) {
         try {
-            final int versionCode = getNextcloudFilesVersionCode(context, type);
+            final long versionCode = getNextcloudFilesVersionCode(context, type);
             if (versionCode < minVersion) {
                 UiExceptionManager.showDialogForException(context, new NextcloudFilesAppNotSupportedException(context));
                 return false;
@@ -48,7 +49,7 @@ public final class VersionCheckHelper {
                     .filter(t -> t.stage() == FilesAppType.Stage.DEV)
                     .findFirst();
                 if (dev.isPresent()) {
-                    final int verCode = getNextcloudFilesVersionCode(context, dev.get());
+                    final long verCode = getNextcloudFilesVersionCode(context, dev.get());
                     // The dev app follows a different versioning schema.. therefore we can't do our normal checks
 
                     // However beta users are probably always up to date so we will just ignore it for now
@@ -65,9 +66,9 @@ public final class VersionCheckHelper {
         return false;
     }
 
-    public static int getNextcloudFilesVersionCode(@NonNull Context context, @NonNull FilesAppType appType) throws PackageManager.NameNotFoundException {
+    public static long getNextcloudFilesVersionCode(@NonNull Context context, @NonNull FilesAppType appType) throws PackageManager.NameNotFoundException {
         final var packageInfo = context.getPackageManager().getPackageInfo(appType.packageId(), 0);
-        final int verCode = packageInfo.versionCode;
+        final var verCode = PackageInfoCompat.getLongVersionCode(packageInfo);
         Log.d("VersionCheckHelper", "Version Code: " + verCode);
         return verCode;
     }
