@@ -94,7 +94,7 @@ public class NextcloudRetrofitServiceMethod<T> {
         this.method = method;
         this.returnType = method.getGenericReturnType();
         Annotation[] methodAnnotations = method.getAnnotations();
-        this.parameterAnnotationsArray = method.getParameterAnnotations();
+        this.parameterAnnotationsArray = filterParameterAnnotations(method.getParameterAnnotations());
 
         for (Annotation annotation : methodAnnotations) {
             parseMethodAnnotation(annotation);
@@ -117,8 +117,27 @@ public class NextcloudRetrofitServiceMethod<T> {
 
     }
 
+    /**
+     * filter out empty parameter annotations (e.g. when using coroutines in kotlin (suspend functions))
+     * For functions that are suspendable, the Continuation parameter will be added on the JVM side.
+     * <a href="https://blog.kotlin-academy.com/a-little-reflection-about-coroutines-34050cbc4fe6">...</a>
+     * @param annotations
+     * @return
+     */
+    private Annotation[][] filterParameterAnnotations(Annotation[][] annotations) {
+        List<Annotation[]> res = new ArrayList<>();
+
+        for(Annotation[] annotation : annotations) {
+            if(annotation.length > 0) {
+                res.add(annotation);
+            }
+        }
+
+        return res.toArray(new Annotation[res.size()][]);
+    }
+
     public T invoke(NextcloudAPI nextcloudAPI, Object[] args) throws Exception {
-        if(parameterAnnotationsArray.length != args.length) {
+        if(parameterAnnotationsArray.length > args.length) {
             throw new InvalidParameterException("Expected: " + parameterAnnotationsArray.length + " params - were: " + args.length);
         }
 
@@ -233,6 +252,8 @@ public class NextcloudRetrofitServiceMethod<T> {
             return (T) ReactivexHelper.wrapInCompletable(nextcloudAPI, request);
         } else if (this.returnType == io.reactivex.rxjava3.core.Completable.class) {
             return (T) ReactivexHelper.wrapInCompletableV3(nextcloudAPI, request);
+        } else {
+            throw new UnsupportedOperationException("don't know this type yet.. [" + returnType + "]");
         }
 
         return nextcloudAPI.performRequestV2(this.returnType, request);
